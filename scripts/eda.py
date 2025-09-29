@@ -318,10 +318,10 @@ class SpotifyEDA:
         plt.title('Speechiness vs Liveness', fontsize=12, fontweight='bold')
         
         plt.tight_layout()
-        plt.savefig('spotify_eda_visualizations.png', dpi=300, bbox_inches='tight')
+        plt.savefig('../resources/spotify_eda_visualizations.png', dpi=300, bbox_inches='tight')
         plt.show()
         
-        print(" Visualizations saved as 'spotify_eda_visualizations.png'")
+        print(" Visualizations saved as 'spotify_eda_visualizations.png' in the resources folder.")
     
     def generate_summary_report(self):
         """Generate a comprehensive summary report."""
