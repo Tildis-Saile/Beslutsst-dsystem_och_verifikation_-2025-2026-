@@ -71,6 +71,7 @@ user_based: {'accuracy': 1.0, 'total_recommendations': 100, 'correct_matches': 1
 item_based: {'accuracy': 1.0, 'total_recommendations': 95, 'correct_matches': 95}
 
 Collaborative filtering demo completed successfully!
+```
 
 </details>
 
