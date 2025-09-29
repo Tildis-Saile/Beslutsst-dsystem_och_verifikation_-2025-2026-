@@ -74,9 +74,18 @@ class ContentBasedRecommender:
         sim_scores = list(enumerate(sim_scores))
         sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
         
+        # --- MODIFIED LOGIC TO HANDLE DUPLICATES ---
+        # Filter out all songs with the same name as the input track
+        filtered_scores = [score for score in sim_scores if self.spotify_df['track_name'].iloc[score[0]] != track_name]
+        
+        # Get the top N recommendations from the filtered list
+        top_scores = filtered_scores[:num_recommendations]
+        track_indices = [i[0] for i in top_scores]
+        # --- END MODIFIED LOGIC ---
+
         # Get top recommendations excluding the track itself
-        sim_scores = sim_scores[1:num_recommendations + 1]
-        track_indices = [i[0] for i in sim_scores]
+        #sim_scores = sim_scores[1:num_recommendations + 1]
+        #track_indices = [i[0] for i in sim_scores]
         
         # Return the track names
         return self.spotify_df['track_name'].iloc[track_indices].tolist()  # CHANGED: 'title' -> 'track_name'
