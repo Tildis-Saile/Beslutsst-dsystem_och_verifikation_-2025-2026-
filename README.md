@@ -11,7 +11,7 @@ Vi har lagat två separata .py filer för att rekommendera på Content-based och
 <summary>
 Collaborative filtering output
 </summary>
-```CMD
+```bash
 Initializing collaborative filtering recommender...
 Creating user-item matrix from implicit feedback...
 User-item matrix created: (114, 89741)
