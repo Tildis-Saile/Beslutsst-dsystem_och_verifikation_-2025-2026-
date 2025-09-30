@@ -1,5 +1,7 @@
 # Beslutsst-dsystem_och_verifikation_-2025-2026-Kursprojekt
 
+![examp;e usage](./resources/example.gif)
+
 ## 1. EDA & Rekommendationssystem
 
 Vi använder oss av [Spotify Tracks Dataset](https://www.kaggle.com/datasets/maharshipandya/-spotify-tracks-dataset/code) för att laga ett rekommendationssystem baserat på Spotify.
