@@ -96,10 +96,34 @@ class HybridRecommender:
 if __name__ == '__main__':
     # Example usage
     hybrid_recommender = HybridRecommender()
-    track_name_to_test = "Back In Black"  # Change to a track in your dataset
-    recommendations = hybrid_recommender.recommend(track_name_to_test, num_recommendations=5)
 
-    if recommendations:
-        print(f"Hybrid Recommendations for '{track_name_to_test}':")
-        for track in recommendations:
-            print(f"- {track}")
+    # Get a few sample users from the collaborative filtering data to test with
+    user_item_df = hybrid_recommender.collaborative_recommender.user_item_df
+    
+    # Take 3 sample users to demonstrate
+    sample_user_ids = user_item_df['user_id'].unique()[:3] 
+
+    # For each sample user, find a track they listened to and get recommendations
+    for user_id in sample_user_ids:
+        print("-" * 40)
+        # Find a track this user has listened to to use as a seed
+        user_tracks = user_item_df[user_item_df['user_id'] == user_id]
+        
+        if not user_tracks.empty:
+            # Use the first track found for this user as the input for recommendations
+            track_name_to_test = user_tracks['track_name'].iloc[0]
+            
+            print(f"Testing with a track from user '{user_id}': '{track_name_to_test}'")
+            
+            recommendations = hybrid_recommender.recommend(track_name_to_test, num_recommendations=5)
+
+            if recommendations:
+                print(f"Hybrid Recommendations based on '{track_name_to_test}':")
+                for i, track in enumerate(recommendations, 1):
+                    print(f"{i}. {track}")
+            else:
+                print(f"Could not find recommendations for '{track_name_to_test}'.")
+        else:
+            print(f"User '{user_id}' has no tracks in the dataset.")
+    
+    print("-" * 40)
