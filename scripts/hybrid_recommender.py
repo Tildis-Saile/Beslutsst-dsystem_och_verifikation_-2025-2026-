@@ -21,7 +21,7 @@ class HybridRecommender:
         self.collaborative_recommender.fit_user_based_cf(n_neighbors=10)
         self.collaborative_recommender.fit_item_based_cf(n_neighbors=10)
 
-    def recommend(self, track_name, num_recommendations=5):
+    def recommend(self, track_name, user_id=None, num_recommendations=5):
         """
         Provides recommendations by combining results from both content-based and collaborative filtering methods.
         
@@ -37,7 +37,7 @@ class HybridRecommender:
         
         # Get collaborative filtering recommendations
         # We need to find a user who has listened to this track
-        collaborative_recommendations = self._get_collaborative_recommendations(track_name, num_recommendations)
+        collaborative_recommendations = self._get_collaborative_recommendations(track_name, user_id, num_recommendations)
 
         # Combine recommendations and remove duplicates
         combined_recommendations = list(set(content_recommendations + collaborative_recommendations))
@@ -45,23 +45,24 @@ class HybridRecommender:
         # Return the top N recommendations
         return combined_recommendations[:num_recommendations]
     
-    def _get_collaborative_recommendations(self, track_name, num_recommendations):
+    def _get_collaborative_recommendations(self, track_name, user_id, num_recommendations):
         """
         Get collaborative filtering recommendations for a track by finding users who listened to it.
         """
         try:
-            # Find the track in the collaborative filtering data
-            track_data = self.collaborative_recommender.user_item_df[
-                self.collaborative_recommender.user_item_df['track_name'] == track_name
-            ]
-            
-            if track_data.empty:
-                print(f"Track '{track_name}' not found in collaborative filtering data.")
-                return []
-            
-            # Get a user who has listened to this track
-            user_id = track_data['user_id'].iloc[0]
-            print(f"Using collaborative filtering user: '{user_id}' for track '{track_name}'")
+            # If no user_id is provided, find one who has listened to the track
+            if user_id is None:
+                # Find the track in the collaborative filtering data
+                track_data = self.collaborative_recommender.user_item_df[
+                    self.collaborative_recommender.user_item_df['track_name'] == track_name
+                ]
+                
+                if track_data.empty:
+                    print(f"Track '{track_name}' not found in collaborative filtering data.")
+                    return []
+                
+                # Get a user who has listened to this track
+                user_id = track_data['user_id'].iloc[0]
             
             # Get recommendations using different methods and combine them
             recommendations = []
@@ -119,7 +120,7 @@ if __name__ == '__main__':
             
             print(f"Testing with a track from user '{user_id}': '{track_name_to_test}'")
             
-            recommendations = hybrid_recommender.recommend(track_name_to_test, num_recommendations=5)
+            recommendations = hybrid_recommender.recommend(track_name_to_test, user_id=user_id, num_recommendations=5)
 
             if recommendations:
                 print(f"Hybrid Recommendations based on '{track_name_to_test}':")
@@ -130,4 +131,29 @@ if __name__ == '__main__':
         else:
             print(f"User '{user_id}' has no tracks in the dataset.")
     
+    print("-" * 40)
+
+
+# Test same song for different users
+    print("\n" + "="*40)
+    print("Testing with the same track for different users")
+    print("="*40)
+    
+    # Pick a popular track to test with
+    track_for_all_users = "Smells Like Teen Spirit" 
+
+    for user_id in sample_user_ids:
+        print("-" * 40)
+        print(f"Getting recommendations for user '{user_id}' based on '{track_for_all_users}'")
+        
+        # Pass both the track and the user_id to get personalized recommendations
+        recommendations = hybrid_recommender.recommend(track_for_all_users, user_id=user_id, num_recommendations=5)
+
+        if recommendations:
+            print(f"Hybrid Recommendations for user '{user_id}':")
+            for i, track in enumerate(recommendations, 1):
+                print(f"{i}. {track}")
+        else:
+            print(f"Could not find recommendations for user '{user_id}'.")
+
     print("-" * 40)
