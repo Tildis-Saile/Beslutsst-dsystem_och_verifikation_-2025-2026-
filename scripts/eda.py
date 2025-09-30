@@ -194,7 +194,7 @@ class SpotifyEDA:
         
         print(f"\n Top 10 Strongest Feature Correlations:")
         for i, (feat1, feat2, corr) in enumerate(corr_pairs[:10], 1):
-            print(f"  {i:2d}. {feat1:<15} ↔ {feat2:<15} {corr:6.3f}")
+            print(f"  {i:2d}. {feat1:<15} <-> {feat2:<15} {corr:6.3f}")
     
     def create_visualizations(self):
         """Create comprehensive visualizations for the dataset."""
@@ -398,8 +398,8 @@ class SpotifyEDA:
 
 def main():
     """Main function to run the EDA analysis."""
-    # Initialize EDA analyzer
-    eda = SpotifyEDA('data/dataset.csv')
+    # Initialize EDA analyzer (will auto-find dataset)
+    eda = SpotifyEDA()
     
     # Run complete analysis
     eda.run_full_analysis()
