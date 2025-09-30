@@ -61,6 +61,7 @@ class HybridRecommender:
             
             # Get a user who has listened to this track
             user_id = track_data['user_id'].iloc[0]
+            print(f"Using collaborative filtering user: '{user_id}' for track '{track_name}'")
             
             # Get recommendations using different methods and combine them
             recommendations = []
@@ -68,6 +69,7 @@ class HybridRecommender:
             # Try SVD recommendations
             try:
                 svd_recs = self.collaborative_recommender.recommend_svd(user_id, num_recommendations)
+                print(f"SVD recommendations: {svd_recs}")
                 recommendations.extend(svd_recs)
             except Exception as e:
                 print(f"SVD recommendation error: {e}")
@@ -75,6 +77,7 @@ class HybridRecommender:
             # Try user-based recommendations
             try:
                 user_recs = self.collaborative_recommender.recommend_user_based(user_id, num_recommendations)
+                print(f"User-based recommendations: {user_recs}")
                 recommendations.extend(user_recs)
             except Exception as e:
                 print(f"User-based recommendation error: {e}")
@@ -82,6 +85,7 @@ class HybridRecommender:
             # Try item-based recommendations
             try:
                 item_recs = self.collaborative_recommender.recommend_item_based(user_id, num_recommendations)
+                print(f"Item-based recommendations: {item_recs}")
                 recommendations.extend(item_recs)
             except Exception as e:
                 print(f"Item-based recommendation error: {e}")
