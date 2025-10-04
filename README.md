@@ -24,6 +24,8 @@ Vi använder oss av [Spotify Tracks Dataset](https://www.kaggle.com/datasets/mah
 EDA Output
 </summary>
 
+![graf](./resources/spotify_eda_visualizations.png)
+
 ```bash
 E:\Repo\Beslutsst-dsystem_och_verifikation_-2025-2026-\scripts>python eda.py
 Loading Spotify tracks dataset from: E:\Repo\Beslutsst-dsystem_och_verifikation_-2025-2026-\data\dataset.csv
